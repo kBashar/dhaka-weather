@@ -14,4 +14,4 @@ This will download required docker images and other project dependencies.
 ```shell
     docker compose up -build
 ```
-4. Visit to [http://localhost:8000](http://localhost:8000) to access.
+4. Visit to [http://localhost:8000/docs](http://localhost:8000/docs) to access the documentation.
