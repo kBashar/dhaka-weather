@@ -1,0 +1,11 @@
+services:
+  api:
+    build: .
+    container_name: strativ-test
+    environment:
+      PORT: 8000
+    ports:
+      - '8000:8000'
+    restart: always
+    volumes:
+      - ./app:/code/app
