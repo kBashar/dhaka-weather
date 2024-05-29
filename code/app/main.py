@@ -2,9 +2,11 @@ from typing import Union
 
 from fastapi import FastAPI
 
+from app.libs.openmeteo import get_weather_data_for_district
+
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.get("/coolest")
+def get_coolest_districts():
+    return get_weather_data_for_district()
