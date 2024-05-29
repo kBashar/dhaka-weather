@@ -10,6 +10,7 @@ Backend Developer with AI Focus Assignment
    cd code
 ```
 3. To build and run the app with docker run following docker compose command.
+This will download required docker images and other project dependencies.
 ```shell
     docker compose up -build
 ```
