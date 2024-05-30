@@ -15,7 +15,6 @@ def train_temperature_data_for_prediction():
 
     if data:
         hourly_temperatures = data.get("hourly")
-        print(hourly_temperatures["time"][0])
         df = pd.DataFrame(hourly_temperatures)
         df.rename(columns={'time': 'ds', 'temperature_2m': 'y'}, inplace=True)
 
@@ -23,10 +22,8 @@ def train_temperature_data_for_prediction():
 
 
 def predict_temperature(date: datetime):
-    # date = pd.to_datetime(date_str)
     future = pd.DataFrame({'ds': [date]})
 
-    # Make prediction
     forecast = model.predict(future)
     prediction = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']].iloc[0]
 

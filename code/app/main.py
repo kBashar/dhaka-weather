@@ -1,6 +1,7 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, status
+from fastapi.responses import JSONResponse
 
 from app.libs.openmeteo import (
     collect_weather_data_for_cooling_calculation,
@@ -31,11 +32,16 @@ def get(
     hour: int = Query(default=14, le=23, ge=0),
     size: int = Query(default=10, le=64, ge=1)
 ):
-    return get_coolest_districts(hour, size)
+    response = get_coolest_districts(hour, size)
+
+    return JSONResponse(status_code=status.HTTP_200_OK, content=response)
 
 
 predict_description = """
-Predicts temperature of a future date.
+Predicts temperature of a future date. Date should be today + 6 days.
+| **Parameter** | **Description**                                                                                             |
+|---------------|-------------------------------------------------------------------------------------------------------------|
+| **date**      | Date for which the temperature prediction should be made. Date should                                                   |
 """
 
 
@@ -43,4 +49,15 @@ Predicts temperature of a future date.
 def predict(
     date: datetime
 ):
-    return predict_temperature(date)
+    last_date_of_training = datetime.today() + timedelta(days=6)
+
+    if date <= last_date_of_training:
+        response = {
+            "error": "Bad request",
+            "message": f"Date should be in future of {last_date_of_training.strftime('%y-%m-%d')}"
+        }
+        return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=response)
+
+    response = predict_temperature(date)
+
+    return JSONResponse(status_code=status.HTTP_200_OK, content=response)
