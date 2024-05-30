@@ -6,15 +6,17 @@ import requests
 
 basepath = path.dirname(__file__)
 
-# Make sure all required weather variables are listed here
-# The order of variables in hourly or daily is important to assign them correctly below
-openmeteo_url = "https://api.open-meteo.com/v1/forecast"
-
 latest_weather_data = None
-coolest_weather_data = {}
 
 
 def fetch_districts():
+    """
+    Data fetcher for districts. Fetch all districts data, we keep it a network call to avoid stale data 
+    in case data related to a districts changes, though it is a rare event.
+
+    ### Returns
+    json response received from github.
+    """
     try:
         response = requests.get("https://raw.githubusercontent.com/strativ-dev/technical-screening-test/main/bd-districts.json")
         if response.status_code == 200:
@@ -25,14 +27,21 @@ def fetch_districts():
         logging.error(str(e))
 
 
-def fetch_weather_data(latitudes, longitudes):
+def fetch_weather_data(latitudes, longitudes, forecast_days: int = 7):
+    """
+    Data fetcher for district temperatures. By default it takes 7 days of forecast.
+
+    ### Returns
+    json response received from openmeteo.
+    """
     payload = {
         "latitude": latitudes,
         "longitude": longitudes,
         "hourly": "temperature_2m",
-        "forecast_days": 7
+        "forecast_days": forecast_days
     }
     try:
+        openmeteo_url = "https://api.open-meteo.com/v1/forecast"
         response = requests.get(openmeteo_url, params=payload)
         if response.status_code == 200:
             data = response.json()
@@ -64,6 +73,17 @@ def load_weather_data():
 
 
 def collect_weather_data_for_cooling_calculation():
+    """
+    Data Collector function, it collects data in following steps
+
+    Step-1: Fetch all districts data, we keep it a network call to avoid stale data 
+            in case data related to a districts changes, though it is a rare event.
+    Step-2: Make two lists, one containing latitudes and another longitudes of the districts.
+    Step-3: Fetch weather data for coming 7 days using openmeteo
+    Step-4: Calculate average temperature for each hour of every districts.
+    Step-5: Save the calculated data for future use.
+    """
+
     districts = fetch_districts()
 
     if districts is None:
@@ -93,12 +113,16 @@ def collect_weather_data_for_cooling_calculation():
         district["average_temperatures"] = average_temperatures
     save_weather_data(districts)
 
-    return {
-        "collected": True
-    }
-
 
 def get_coolest_districts(hour=14, size=10):
+    """
+    returns a list of districts that are most coolest aka has least temperature among all districts.
+
+    ### parameter
+    `hour`: Interested hour of the day. It takes hour in 0-23 and default is 14 aka 2PM.
+    `size`: Number of districts to return. It takes 1-64 and by default it returns 10 districts 
+            sorted in their temperatures ascending order.
+    """
     if latest_weather_data is None:
         load_weather_data()
     sorted_districts = sorted(latest_weather_data, key=lambda x: x["average_temperatures"][hour])

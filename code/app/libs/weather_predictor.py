@@ -9,6 +9,18 @@ model = Prophet()  # model initialization
 
 
 def train_temperature_data_for_prediction():
+    """
+    This function fetch weather data for Dhaka. Then user `hourly` data to create a
+    pandas data-frame which then used to fit/fine-tune the `prophet` model.
+    Finetuned model is saved in global `model` variable to be used later to predict weather.
+    This function should be called to load/refresh new weather data.
+
+    ### Parameters
+    None
+
+    ### Returns
+    None
+    """
     latitude = "23.7115253"
     longitude = "90.4111451"
     data = fetch_weather_data(latitude, longitude)
@@ -22,6 +34,14 @@ def train_temperature_data_for_prediction():
 
 
 def predict_temperature(date: datetime):
+    """
+    Predicts temperature for a given date.
+
+    ### Parameter
+    `date` - The future date for which we want to predict the temperature. 
+            This takes python datetime object.
+    """
+
     future = pd.DataFrame({'ds': [date]})
 
     forecast = model.predict(future)
