@@ -31,3 +31,15 @@ Example curl command for the api.
 ```curl
 curl --location 'localhost:8000/coolest?hour=14&size=10'
 ```
+
+### `/predict`
+
+Predicts temperature of a future date. Date should be today + 6 days.
+| **Parameter** | **Description**                                                                                             |
+|---------------|-------------------------------------------------------------------------------------------------------------|
+| **date**      | Date for which the temperature prediction should be made. Date should                                                   |
+
+Example curl command for the api.
+```curl
+curl --location 'localhost:8000/predict?date=2024-06-10T12%3A00'
+```
