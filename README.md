@@ -1,6 +1,4 @@
-# strativ-test
-Backend Developer with AI Focus Assignment
-
+# Backend Developer with AI Focus Assignment
 
 ## Run the app  
 
@@ -10,14 +8,14 @@ Backend Developer with AI Focus Assignment
    cd code
 ```
 3. To build and run the app with docker run following docker compose command.
-This will download required docker images and other project dependencies.
 ```shell
     docker compose up -build
 ```
-4. Visit to [http://localhost:8000/docs](http://localhost:8000/docs) to access the documentation.
+This will download required docker images and other project dependencies.
+4. Visit to [http://localhost:8000/docs](http://localhost:8000/docs) to access the API documentation and swagger.
 
 
-## API Documentation  
+## About endpoints 
 
 ### `/coolest` 
 This api returns the coolest districts for next 7 days in ascending order of average temperatures in a given hour. As query parameter this api  endpoint 
@@ -74,29 +72,28 @@ curl --location 'localhost:8000/predict?date=2024-06-10T12%3A00'
 ### Coolest Districts  
 Coolest district calculation processing happens in several steps:
 
-Step-1: Fetch all districts data, we keep it a network call to avoid stale data 
-            in case data related to a districts changes, though it is a rare event.
-Step-2: Make two lists, one containing latitudes and another longitudes of the districts.
-Step-3: Fetch weather data for coming 7 days using openmeteo
-Step-4: Calculate average temperature for each hour of every districts.
-Step-5: Save the calculated data for future use.
-Step-6: Serve the pre-calculated data through `/coolest` api endpoint
+Step-1: Fetch all districts data, we keep it a network call to avoid stale data in case data related to a districts changes, though it is a rare event.  
+Step-2: Make two lists, one containing latitudes and another longitudes of the districts.  
+Step-3: Fetch weather data for coming 7 days using openmeteo.  
+Step-4: Calculate average temperature for each hour of every districts.  
+Step-5: Save the calculated data for future use.  
+Step-6: Serve the pre-calculated data through `/coolest` api endpoint.  
 
 ### Temperature Prediction
 We used prophet time series model to fine tune for our temperature prediction purpose.
-Temperature prediction happens in following steps:
+Temperature prediction happens in following steps:  
 
-Step-1: This function fetch weather data for Dhaka. 
-Step-2: Then use `hourly` data to create a pandas data-frame which then used to fit/fine-tune the `prophet` model.
-Step-3: Fine-tuned model is saved in global `model` variable to be used later to predict weather.
-Step-4: Use the saved model to predict temperature for future dates. 
+Step-1: This function fetch weather data for Dhaka.  
+Step-2: Then use `hourly` data to create a pandas data-frame which then used to fit/fine-tune the `prophet` model.  
+Step-3: Fine-tuned model is saved in global `model` variable to be used later to predict weather.  
+Step-4: Use the saved model to predict temperature for future dates.   
 
 ## Performance
 
 ### `/coolest` 
 
-As we save the collected and processed data, response time is well below constrained 500ms. 
-Below chart will bear truth to the above claim. We notice initial request takes more time and as time progress response time stabilize to 3ms.
+As we save the collected and processed data in runtime memory, response time is well below constrained 500ms.  
+Following chart will bear truth to the above claim. We notice initial request takes more time and as time progress response time stabilize to 3ms.
 
 |   hour |   size |   response_time |
 |-------:|-------:|----------------:|
@@ -109,7 +106,7 @@ Below chart will bear truth to the above claim. We notice initial request takes 
 
 ### `/predict` 
 
-Models performs better when future date is nearer to the trianning date and
+Models performs better when future date is nearer to the trianing date and
 slips away further as we go further the time. This can be improved with more data.
 Here we are fitting the model with only 7 days of temperature data.
 
