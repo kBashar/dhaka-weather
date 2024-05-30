@@ -3,17 +3,8 @@ import logging
 from os import path
 
 import requests
-import openmeteo_requests
-
-import requests_cache
-from retry_requests import retry
 
 basepath = path.dirname(__file__)
-
-# Setup the Open-Meteo API client with cache and retry on error
-cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
-retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
-openmeteo = openmeteo_requests.Client(session=retry_session)
 
 # Make sure all required weather variables are listed here
 # The order of variables in hourly or daily is important to assign them correctly below
@@ -21,6 +12,7 @@ openmeteo_url = "https://api.open-meteo.com/v1/forecast"
 
 latest_weather_data = None
 coolest_weather_data = {}
+
 
 def fetch_districts():
     try:
@@ -71,7 +63,7 @@ def load_weather_data():
         logging.error("Failed to save the weather data to disk.")
 
 
-def collect_weather_data_for_next_7_days():
+def collect_weather_data_for_cooling_calculation():
     districts = fetch_districts()
 
     if districts is None:
@@ -117,3 +109,4 @@ def get_coolest_districts(hour=14, size=10):
         o["average_temperature"] = obj["average_temperatures"][hour]
         new_list.append(o)
     return new_list
+
