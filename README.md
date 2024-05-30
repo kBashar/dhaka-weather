@@ -1,5 +1,13 @@
 # Backend Developer with AI Focus Assignment
 
+## Features
+
+1. Endpoint to get on average coolest districts per hour basis based on next 7 days data.  
+2. Predict Dhaka's temperature for future data and time.  
+3. Refresh temperature data every 24 hours with corn job.  
+4. Extensive documentation of process and performance.  
+5. Easy installation and setup with docker.  
+
 ## Run the app  
 
 1. Clone this repository
@@ -15,7 +23,7 @@ This will download required docker images and other project dependencies.
 4. Visit to [http://localhost:8000/docs](http://localhost:8000/docs) to access the API documentation and swagger.
 
 
-## About endpoints 
+## About Endpoints 
 
 ### `/coolest` 
 This api returns the coolest districts for next 7 days in ascending order of average temperatures in a given hour. As query parameter this api  endpoint 
@@ -67,7 +75,7 @@ curl --location 'localhost:8000/predict?date=2024-06-10T12%3A00'
         "upper_bound": 32.3
     }
 ```
-## How it works  
+## How It Works  
 
 ### Coolest Districts  
 Coolest district calculation processing happens in several steps:
@@ -106,8 +114,8 @@ Following chart will bear truth to the above claim. We notice initial request ta
 
 ### `/predict` 
 
-Models performs better when future date is nearer to the trianing date and
-slips away further as we go further the time. This can be improved with more data.
+Models performs better when future date is nearer to the training date and
+slips away further as we go further the time. This can be improved with more training data.
 Here we are fitting the model with only 7 days of temperature data.
 
 | Date                | Distance | Predicted |
@@ -115,4 +123,3 @@ Here we are fitting the model with only 7 days of temperature data.
 | 2024-06-10 12:00:00 | 10 days  | 28.96     |
 | 2024-07-10 12:00:00 | 40 days  | 24.07     |
 | 2025-07-10 12:00:00 | 375 days | -35.39    |
-
