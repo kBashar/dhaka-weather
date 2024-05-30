@@ -25,7 +25,7 @@ takes two parameters.
 | **Parameter** | **Description**                                                                                             | **Default Value** | **Range**   |
 |---------------|-------------------------------------------------------------------------------------------------------------|-------------------|-------------|
 | **hour**      | Hour of the day when the temperature will be considered to calculate coolness.                              | 14                | 0 to 23     |
-| **size**      | Length of the result set. How many districts will be returned.      
+| **size**      | Length of the result set. How many districts will be returned. 10                | 1 to 64     |
 
 Example curl command for the api.
 ```curl
