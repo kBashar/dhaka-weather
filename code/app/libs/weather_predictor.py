@@ -11,7 +11,7 @@ model = Prophet()  # model initialization
 
 def train_temperature_data_for_prediction():
     """
-    This function fetch weather data for Dhaka. Then user `hourly` data to create a
+    This function fetch weather data for Dhaka. Then use `hourly` data to create a
     pandas data-frame which then used to fit/fine-tune the `prophet` model.
     Finetuned model is saved in global `model` variable to be used later to predict weather.
     This function should be called to load/refresh new weather data.

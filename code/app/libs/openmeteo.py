@@ -51,27 +51,6 @@ def fetch_weather_data(latitudes, longitudes, forecast_days: int = 7):
         return None
 
 
-def save_weather_data(data):
-    global latest_weather_data
-    filepath = path.abspath(path.join(basepath, "..", "bd-districts-weather.json"))
-    try:
-        with open(filepath, "w+") as weather_file:
-            json.dump(data, weather_file)
-            latest_weather_data = data
-    except Exception:
-        logging.error("Failed to save the weather data to disk.")
-
-
-def load_weather_data():
-    global latest_weather_data
-    filepath = path.abspath(path.join(basepath, "..", "bd-districts-weather.json"))
-    try:
-        with open(filepath, "r+") as weather_file:
-            latest_weather_data = json.load(weather_file)
-    except Exception:
-        logging.error("Failed to save the weather data to disk.")
-
-
 def collect_weather_data_for_cooling_calculation():
     """
     Data Collector function, it collects data in following steps
@@ -83,6 +62,7 @@ def collect_weather_data_for_cooling_calculation():
     Step-4: Calculate average temperature for each hour of every districts.
     Step-5: Save the calculated data for future use.
     """
+    global latest_weather_data
     logging.info("Running weather data collection process")
     districts = fetch_districts()
 
@@ -111,7 +91,7 @@ def collect_weather_data_for_cooling_calculation():
             average_temp = sum(hour_temperatures)/len(hour_temperatures)
             average_temperatures[hour] = round(average_temp, 2)
         district["average_temperatures"] = average_temperatures
-    save_weather_data(districts)
+    latest_weather_data = districts
     logging.info("Weather data collection process finished successfully")
 
 
@@ -124,8 +104,6 @@ def get_coolest_districts(hour=14, size=10):
     `size`: Number of districts to return. It takes 1-64 and by default it returns 10 districts 
             sorted in their temperatures ascending order.
     """
-    if latest_weather_data is None:
-        load_weather_data()
     sorted_districts = sorted(latest_weather_data, key=lambda x: x["average_temperatures"][hour])
     coolest_districts = sorted_districts[:size]
     new_list = []
