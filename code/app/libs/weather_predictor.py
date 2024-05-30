@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 import pandas as pd
@@ -21,6 +22,7 @@ def train_temperature_data_for_prediction():
     ### Returns
     None
     """
+    logging.info("Temperature model training started")
     latitude = "23.7115253"
     longitude = "90.4111451"
     data = fetch_weather_data(latitude, longitude)
@@ -31,6 +33,7 @@ def train_temperature_data_for_prediction():
         df.rename(columns={'time': 'ds', 'temperature_2m': 'y'}, inplace=True)
 
         model.fit(df)   # fine tune the model
+    logging.info("Model training finished.")
 
 
 def predict_temperature(date: datetime):

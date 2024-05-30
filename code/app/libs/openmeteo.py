@@ -83,7 +83,7 @@ def collect_weather_data_for_cooling_calculation():
     Step-4: Calculate average temperature for each hour of every districts.
     Step-5: Save the calculated data for future use.
     """
-
+    logging.info("Running weather data collection process")
     districts = fetch_districts()
 
     if districts is None:
@@ -112,6 +112,7 @@ def collect_weather_data_for_cooling_calculation():
             average_temperatures[hour] = round(average_temp, 2)
         district["average_temperatures"] = average_temperatures
     save_weather_data(districts)
+    logging.info("Weather data collection process finished successfully")
 
 
 def get_coolest_districts(hour=14, size=10):
