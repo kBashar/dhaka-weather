@@ -15,7 +15,7 @@ app = FastAPI()
 @app.get("/coolest")
 def get(
     hour: int = Query(default=14, le=23, ge=0),
-    size: int = Query(default=10, le=64, ge=0)
+    size: int = Query(default=10, le=64, ge=1)
 ):
     return get_coolest_districts(hour, size)
 
