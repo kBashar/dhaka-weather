@@ -5,3 +5,4 @@ requests-cache
 retry-requests
 numpy 
 pandas
+requests==2.32.3
