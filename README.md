@@ -63,7 +63,7 @@ Predicts temperature of a future date. Date should be today + 6 days.
 
 **Example curl command**
 ```curl
-curl --location 'localhost:8000/predict?date=2024-06-10T12%3A00'
+curl --location 'localhost:8000/predict?date=2024-06-10'
 ```
 
 **Response body**
@@ -92,7 +92,7 @@ We used prophet time series model to fine tune for our temperature prediction pu
 Temperature prediction happens in following steps:  
 
 **Step-1**: This function fetch weather data for Dhaka.  
-**Step-2**: Then use `hourly` data to create a pandas data-frame which then used to fit/fine-tune the `prophet` model.  
+**Step-2**: Then use `hourly` data to get an average temperature of the day to create a pandas data-frame which then used to fit/fine-tune the `prophet` model.  
 **Step-3**: Fine-tuned model is saved in global `model` variable to be used later to predict weather.  
 **Step-4**: Use the saved model to predict temperature for future dates.   
 
