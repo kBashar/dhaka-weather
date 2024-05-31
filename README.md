@@ -59,7 +59,7 @@ curl --location 'localhost:8000/coolest?hour=14&size=10'
 Predicts temperature of a future date. Date should be today + 6 days.
 | **Parameter** | **Description**                                                                                             |
 |---------------|-------------------------------------------------------------------------------------------------------------|
-| **date**      | Date for which the temperature prediction should be made. Date should in ISO8601                                           |
+| **date**      | Date for which the temperature prediction should be made. Date can be formatted like "2024-06-07".|
 
 **Example curl command**
 ```curl
@@ -69,7 +69,7 @@ curl --location 'localhost:8000/predict?date=2024-06-10T12%3A00'
 **Response body**
 ```json
     {
-        "date": "2024-06-10 12:00:00",
+        "date": "2024-06-10",
         "predicted_temperature": 31.32,
         "lower_bound": 30.39,
         "upper_bound": 32.3
@@ -120,6 +120,6 @@ Here we are fitting the model with only 7 days of temperature data.
 
 | Date                | Distance | Predicted |
 |---------------------|----------|-----------|
-| 2024-06-10 12:00:00 | 10 days  | 28.96     |
-| 2024-07-10 12:00:00 | 40 days  | 24.07     |
-| 2025-07-10 12:00:00 | 375 days | -35.39    |
+| 2024-06-10 | 10 days  |  27.99     |
+| 2024-07-10 | 40 days  | 20.99     |
+| 2025-07-10 | 375 days | -7.73    |

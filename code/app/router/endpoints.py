@@ -31,7 +31,7 @@ predict_description = """
 Predicts temperature of a future date. Date should be today + 6 days.
 | **Parameter** | **Description**                                                                                             |
 |---------------|-------------------------------------------------------------------------------------------------------------|
-| **date**      | Date for which the temperature prediction should be made. Date should in ISO8601 format.                                                  |
+| **date**      | Date for which the temperature prediction should be made. Date can be formatted like "2024-06-07".                                                  |
 """
 
 
