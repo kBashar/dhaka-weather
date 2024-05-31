@@ -3,7 +3,7 @@
 ## Features
 
 1. Endpoint to get on average coolest districts per hour basis based on next 7 days data.  
-2. Predict Dhaka's temperature for future data and time.  
+2. Predict Dhaka's temperature for future date and time.  
 3. Refresh temperature data every 24 hours with corn job.  
 4. Extensive documentation of process and performance.  
 5. Easy installation and setup with docker.  
@@ -80,21 +80,21 @@ curl --location 'localhost:8000/predict?date=2024-06-10T12%3A00'
 ### Coolest Districts  
 Coolest district calculation processing happens in several steps:
 
-Step-1: Fetch all districts data, we keep it a network call to avoid stale data in case data related to a districts changes, though it is a rare event.  
-Step-2: Make two lists, one containing latitudes and another longitudes of the districts.  
-Step-3: Fetch weather data for coming 7 days using openmeteo.  
-Step-4: Calculate average temperature for each hour of every districts.  
-Step-5: Save the calculated data for future use.  
-Step-6: Serve the pre-calculated data through `/coolest` api endpoint.  
+**Step-1**: Fetch all districts data, we keep it a network call to avoid stale data in case data related to a districts changes, though it is a rare event.  
+**Step-2**: Make two lists, one containing latitudes and another longitudes of the districts.  
+**Step-3**: Fetch weather data for coming 7 days using openmeteo.  
+**Step-4**: Calculate average temperature for each hour of every districts.  
+**Step-5**: Save the calculated data for future use.  
+**Step-6**: Serve the pre-calculated data through `/coolest` api endpoint.  
 
 ### Temperature Prediction
 We used prophet time series model to fine tune for our temperature prediction purpose.
 Temperature prediction happens in following steps:  
 
-Step-1: This function fetch weather data for Dhaka.  
-Step-2: Then use `hourly` data to create a pandas data-frame which then used to fit/fine-tune the `prophet` model.  
-Step-3: Fine-tuned model is saved in global `model` variable to be used later to predict weather.  
-Step-4: Use the saved model to predict temperature for future dates.   
+**Step-1**: This function fetch weather data for Dhaka.  
+**Step-2**: Then use `hourly` data to create a pandas data-frame which then used to fit/fine-tune the `prophet` model.  
+**Step-3**: Fine-tuned model is saved in global `model` variable to be used later to predict weather.  
+**Step-4**: Use the saved model to predict temperature for future dates.   
 
 ## Performance
 
