@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from fastapi import Query, status, APIRouter
 from fastapi.responses import JSONResponse
@@ -37,9 +37,9 @@ Predicts temperature of a future date. Date should be today + 6 days.
 
 @router.get("/predict", description=predict_description)
 def predict(
-    date: datetime
+    date: date
 ):
-    last_date_of_training = datetime.today() + timedelta(days=6)
+    last_date_of_training = datetime.today().date() + timedelta(days=6)
 
     if date <= last_date_of_training:
         response = {

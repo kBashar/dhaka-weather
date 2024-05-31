@@ -9,10 +9,10 @@ from app.libs.weather_predictor import train_temperature_data_for_prediction
 from app.router.endpoints import router
 
 logging.basicConfig(
-    level=logging.INFO,  # Set the logging level
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # Format of the log messages
+    level=logging.INFO,  
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler()  # Console handler
+        logging.StreamHandler()
     ]
 )
 
